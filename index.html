@@ -1,0 +1,16 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>KARYNA V20.5</title>
+<style>body{background:#050505;color:white;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}
+.card{background:#0c0c0c;border:1px solid #00e5ff;padding:35px;border-radius:15px;width:380px;text-align:center}
+input{width:100%;padding:12px;margin:10px 0;background:#000;border:1px solid #333;color:white;border-radius:8px;box-sizing:border-box}
+button{width:100%;padding:12px;background:#ff0055;border:none;color:white;font-weight:bold;cursor:pointer;border-radius:8px}</style></head>
+<body><div class="card"><h2>KARYNA <span style="color:#00e5ff">ULTIMATE</span></h2>
+<div id="setupView"><input id="ukey" placeholder="License Key"><input id="uuser" placeholder="Admin Username">
+<input id="upass" type="password" placeholder="Password"><button onclick="setup()">ACTIVATE</button></div></div>
+<script>
+const API = "http://localhost:3000";
+async function setup(){
+  const k=document.getElementById('ukey').value, u=document.getElementById('uuser').value, p=document.getElementById('upass').value;
+  const r = await fetch(API+'/api/setup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({u,p,k})});
+  if(r.ok) location.reload(); else alert("Activation Failed!");
+}
+</script></body></html>

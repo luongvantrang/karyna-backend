@@ -1,25 +1,15 @@
 {
-  "name": "karyna-backend-v18",
-  "version": "18.0.0",
+  "name": "karyna-v20-ultimate",
+  "version": "20.5.0",
   "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
   "dependencies": {
-    "abort-controller": "^3.0.0",
-    "connect-sqlite3": "^0.9.13",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "express-rate-limit": "^7.1.5",
     "express-session": "^1.17.3",
-    "helmet": "^7.1.0",
-    "https-proxy-agent": "^5.0.1",
-    "node-fetch": "^2.6.7",
-    "otplib": "^12.0.1",
-    "qrcode": "^1.5.3",
     "socket.io": "^4.7.2",
     "sqlite3": "^5.1.6",
-    "svg-captcha": "^1.4.0"
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "node-fetch": "^2.6.7",
+    "https-proxy-agent": "^5.0.1"
   }
 }
