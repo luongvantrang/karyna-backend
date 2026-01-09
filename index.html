@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KARYNA ALL | Shop Cày Thuê Uy Tín</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        heading: ['Oswald', 'sans-serif'],
+                    },
+                    colors: {
+                        bg: '#020617',
+                        card: '#0f172a',
+                        primary: 'var(--color-primary)',
+                    },
+                    boxShadow: {
+                        'neon': '0 0 20px var(--color-glow)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.7' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* === MÀU SẮC CHỦ ĐẠO === */
+        :root {
+            --color-primary: #3b82f6; /* Xanh dương */
+            --color-glow: rgba(59, 130, 246, 0.5);
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            /* Hình nền họa tiết */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15), transparent 25%), 
+                radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.15), transparent 25%);
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        /* Hiệu ứng kính mờ */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        /* Card Dịch vụ */
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--color-primary);
+            box-shadow: 0 15px 40px -10px var(--color-glow);
+        }
+
+        /* TAGS GRADIENT */
+        .tag-hot { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+        .tag-vip { background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); }
+        .tag-fast { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); }
+        .tag-new { background: linear-gradient(135deg, #f97316 0%, #d97706 100%); }
+        .tag-sale { background: linear-gradient(135deg, #10b981 0%, #047857 100%); }
+
+        /* Modal (Cửa sổ bật lên) */
+        .modal { transition: opacity 0.3s ease, visibility 0.3s ease; opacity: 0; visibility: hidden; }
+        .modal.active { opacity: 1; visibility: visible; }
+        .modal-content { transform: scale(0.95); opacity: 0; transition: all 0.3s ease; }
+        .modal.active .modal-content { transform: scale(1); opacity: 1; }
+
+        /* Filter Buttons */
+        .category-btn {
+            transition: all 0.3s ease;
+        }
+        .category-btn.active {
+            background-color: rgba(59, 130, 246, 0.2);
+            border-color: var(--color-primary);
+            color: #fff;
+        }
+
+        /* Thanh cuộn đẹp */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen font-sans selection:bg-blue-500 selection:text-white">
+
+    <nav class="fixed w-full z-50 top-0 start-0 border-b border-white/5 bg-[#020617]/95 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-wrap items-center justify-between py-3">
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-xl border border-white/10 group-hover:bg-[var(--color-primary)] transition-all duration-300" style="background-color: rgba(255,255,255,0.05);">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <span class="text-2xl font-extrabold tracking-wide text-white">
+                        Karyna<span style="color: var(--color-primary)">All</span>
+                    </span>
+                </a>
+
+                <div class="hidden md:flex items-center space-x-1 bg-white/5 p-1 rounded-full border border-white/5">
+                    <a href="#home" class="px-6 py-2 rounded-full text-white font-bold text-sm bg-white/10 transition">Trang Chủ</a>
+                    <a href="#boosting" class="px-6 py-2 rounded-full text-gray-400 font-bold text-sm hover:text-white hover:bg-white/5 transition">Dịch Vụ</a>
+                    <a href="#stats" class="px-6 py-2 rounded-full text-gray-400 font-bold text-sm hover:text-white hover:bg-white/5 transition">Thống Kê</a>
+                    <button onclick="openModal('deposit')" class="px-6 py-2 rounded-full text-gray-400 font-bold text-sm hover:text-white hover:bg-white/5 transition">Nạp Tiền</button>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button onclick="openModal('login')" class="text-white px-5 py-2.5 rounded-xl font-bold text-sm transition shadow-neon flex items-center gap-2 transform hover:-translate-y-0.5" style="background-color: var(--color-primary); box-shadow: 0 4px 15px var(--color-glow);">
+                        <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="pt-32 pb-10 px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <div class="lg:col-span-8 animate-float">
+                <div class="glass-panel p-2 rounded-2xl relative overflow-hidden h-full shadow-neon group">
+                    <div class="relative w-full h-full min-h-[350px] md:min-h-[450px] rounded-xl overflow-hidden bg-black flex items-center justify-center">
+                        <iframe class="w-full h-full absolute inset-0" 
+                                src="https://www.youtube.com/embed/xRpzBAyKkmA?autoplay=1&mute=1&controls=0&loop=1&playlist=xRpzBAyKkmA" 
+                                title="Trailer" frameborder="0" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-4">
+                <div class="glass-panel rounded-2xl p-0 h-full flex flex-col border border-white/10 overflow-hidden bg-[#0f172a]/80">
+                    <div class="p-5 border-b border-white/10 bg-white/5 flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-white uppercase tracking-wide flex items-center gap-2">
+                            <i class="fa-solid fa-fire text-red-500"></i> TOP ĐẠI GIA
+                        </h3>
+                        <span class="text-[10px] font-bold text-white px-2 py-1 rounded" style="background-color: var(--color-primary)">THÁNG NÀY</span>
+                    </div>
+
+                    <div class="p-5 space-y-3 flex-1 overflow-y-auto max-h-[350px]">
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-yellow-500/10 to-transparent border border-yellow-500/20 animate-pulse-glow">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-yellow-500 flex items-center justify-center text-black font-extrabold">🥇</div>
+                                <div>
+                                    <div class="font-bold text-white text-sm">Karyna***</div>
+                                    <div class="text-[10px] text-yellow-500 font-bold">TOP 1 SERVER</div>
+                                </div>
+                            </div>
+                            <span class="font-mono font-bold text-yellow-400 text-sm">5.000.000đ</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-gray-400 flex items-center justify-center text-black font-extrabold">🥈</div>
+                                <div>
+                                    <div class="font-bold text-white text-sm">Huy***</div>
+                                    <div class="text-[10px] text-gray-400">TOP 2 SERVER</div>
+                                </div>
+                            </div>
+                            <span class="font-mono font-bold text-gray-300 text-sm">2.000.000đ</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-orange-400 flex items-center justify-center text-black font-extrabold">🥉</div>
+                                <div>
+                                    <div class="font-bold text-white text-sm">Linh***</div>
+                                    <div class="text-[10px] text-orange-400">TOP 3 SERVER</div>
+                                </div>
+                            </div>
+                            <span class="font-mono font-bold text-orange-300 text-sm">1.500.000đ</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border-t border-white/10 bg-white/5">
+                        <button onclick="openModal('deposit')" class="w-full py-3 text-white font-bold rounded-xl transition shadow-neon flex justify-center items-center gap-2 transform hover:-translate-y-1" style="background-color: var(--color-primary);">
+                            <i class="fa-solid fa-bolt"></i> NẠP TIỀN NGAY
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stats" class="py-12 px-4 bg-white/5">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-8 text-center">
+                <i class="fa-solid fa-chart-line text-green-500 mr-2"></i> THỐNG KÊ SHOP
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-panel p-6 rounded-2xl text-center border border-white/10">
+                    <div class="text-3xl md:text-4xl font-bold text-[var(--color-primary)] mb-2">5K+</div>
+                    <div class="text-sm text-gray-400 font-semibold">Khách Hàng</div>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl text-center border border-white/10">
+                    <div class="text-3xl md:text-4xl font-bold text-green-500 mb-2">24/7</div>
+                    <div class="text-sm text-gray-400 font-semibold">Hỗ Trợ</div>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl text-center border border-white/10">
+                    <div class="text-3xl md:text-4xl font-bold text-yellow-500 mb-2">100%</div>
+                    <div class="text-sm text-gray-400 font-semibold">Uy Tín</div>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl text-center border border-white/10">
+                    <div class="text-3xl md:text-4xl font-bold text-red-500 mb-2">10K+</div>
+                    <div class="text-sm text-gray-400 font-semibold">Đơn Hàng</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="boosting" class="py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-8 border-b border-white/10 pb-4">
+                <i class="fa-solid fa-fire text-red-500 mr-2"></i> Dịch Vụ Cày Thuê
+            </h2>
+
+            <div class="mb-6 flex flex-wrap gap-2">
+                <button class="category-btn active px-6 py-2 rounded-full font-bold text-sm bg-white/10 text-white border border-white/20 hover:bg-[var(--color-primary)]/20 transition" onclick="filterCategory('all', event)">
+                    Tất Cả
+                </button>
+                <button class="category-btn px-6 py-2 rounded-full font-bold text-sm bg-white/5 text-gray-400 border border-white/10 hover:bg-[var(--color-primary)]/20 transition" onclick="filterCategory('hot', event)">
+                    🔥 HOT
+                </button>
+                <button class="category-btn px-6 py-2 rounded-full font-bold text-sm bg-white/5 text-gray-400 border border-white/10 hover:bg-[var(--color-primary)]/20 transition" onclick="filterCategory('vip', event)">
+                    👑 VIP
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="service-container">
+                </div>
+        </div>
+    </section>
+
+    <div id="modal-order" class="modal fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeAllModals()"></div>
+        <div class="modal-content relative bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-6 relative text-white" style="background: linear-gradient(135deg, var(--color-primary) 0%, #1e1b4b 100%);">
+                <h3 class="text-2xl font-bold uppercase drop-shadow-md">THANH TOÁN DỊCH VỤ</h3>
+                <p id="modalServiceName" class="text-sm opacity-90 mt-1">...</p>
+                <button onclick="closeAllModals()" class="absolute top-4 right-4 text-white/80 hover:text-white"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            </div>
+            <div class="p-8 space-y-6 bg-white text-gray-800 overflow-y-auto">
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2 text-sm uppercase">Chọn Gói:</label>
+                    <select id="packageSelect" class="block w-full border-2 border-gray-200 py-3 px-4 rounded-lg font-semibold text-sm bg-gray-50 focus:border-blue-500 outline-none">
+                        <option value="0">-- Vui lòng chọn gói --</option>
+                    </select>
+                </div>
+                <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" class="w-full border-2 border-gray-200 rounded-lg px-4 py-3 text-sm font-medium bg-gray-50 outline-none focus:border-blue-500" placeholder="Tài khoản Game">
+                        <input type="password" class="w-full border-2 border-gray-200 rounded-lg px-4 py-3 text-sm font-medium bg-gray-50 outline-none focus:border-blue-500" placeholder="Mật khẩu Game">
+                    </div>
+                    <textarea class="w-full border-2 border-gray-200 rounded-lg px-4 py-3 text-sm font-medium bg-gray-50 outline-none focus:border-blue-500 h-24" placeholder="Ghi chú (Mã 2FA, Backup code...)"></textarea>
+                </div>
+                <div class="flex items-center justify-between pt-6 border-t border-gray-100">
+                    <div class="text-left">
+                        <div class="text-xs text-gray-400 font-bold uppercase">Tổng tiền</div>
+                        <div id="totalPrice" class="text-red-600 font-extrabold text-2xl">0 đ</div>
+                    </div>
+                    <button onclick="submitOrder()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-lg font-bold text-sm uppercase shadow-lg transform hover:-translate-y-1 transition">Thanh Toán</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-deposit" class="modal fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeAllModals()"></div>
+        <div class="modal-content relative bg-[#0f172a] w-full max-w-lg rounded-2xl border border-white/10 shadow-2xl p-6 text-center">
+            <h3 class="text-xl font-bold text-white mb-4">NẠP THẺ CÀO</h3>
+            <p class="text-gray-400 text-sm mb-6">Hệ thống nạp thẻ tự động 24/7 - Cọc ngay trong 30 giây</p>
+            <div class="space-y-3">
+                <select class="w-full bg-[#1e293b] border border-white/10 text-white rounded-xl p-3 text-sm outline-none focus:border-[var(--color-primary)]">
+                    <option>Viettel</option>
+                    <option>Vinaphone</option>
+                    <option>Mobifone</option>
+                </select>
+                <input type="text" placeholder="Mã thẻ" class="w-full bg-[#1e293b] border border-white/10 text-white rounded-xl p-3 text-sm outline-none focus:border-[var(--color-primary)]">
+                <input type="text" placeholder="Số Seri" class="w-full bg-[#1e293b] border border-white/10 text-white rounded-xl p-3 text-sm outline-none focus:border-[var(--color-primary)]">
+                <button onclick="depositSuccess()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition">NẠP NGAY</button>
+            </div>
+            <button onclick="closeAllModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+
+    <div id="modal-login" class="modal fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeAllModals()"></div>
+        <div class="modal-content relative bg-[#0f172a] w-full max-w-sm rounded-2xl border border-white/10 shadow-2xl p-6">
+            <h3 class="text-xl font-bold text-white mb-6 text-center">ĐĂNG NHẬP TÀI KHOẢN</h3>
+            <div class="space-y-4">
+                <input type="email" placeholder="Email hoặc SĐT" class="w-full bg-[#1e293b] border border-white/10 text-white rounded-lg p-3 outline-none focus:border-[var(--color-primary)] transition">
+                <input type="password" placeholder="Mật khẩu" class="w-full bg-[#1e293b] border border-white/10 text-white rounded-lg p-3 outline-none focus:border-[var(--color-primary)] transition">
+                <button onclick="loginSuccess()" class="w-full text-white font-bold py-3 rounded-lg transition shadow-lg transform hover:-translate-y-1" style="background-color: var(--color-primary);">ĐĂNG NHẬP</button>
+            </div>
+            <p class="text-center text-gray-400 text-sm mt-4">Chưa có tài khoản? <span class="text-[var(--color-primary)] cursor-pointer font-bold">Đăng ký ngay</span></p>
+            <button onclick="closeAllModals()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+
+    <footer class="bg-[#020617] border-t border-white/5 py-8 mt-auto text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-white text-2xl font-extrabold mb-2 tracking-tight">
+                KARYNA<span style="color: var(--color-primary)">ALL</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">© 2026 Developed by Karyna Team. All Rights Reserved.</p>
+            <div class="flex justify-center gap-4">
+                <a href="#" class="text-gray-400 hover:text-[var(--color-primary)] transition"><i class="fa-brands fa-discord text-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-[var(--color-primary)] transition"><i class="fa-brands fa-facebook text-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-[var(--color-primary)] transition"><i class="fa-brands fa-youtube text-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const products = [
+            {
+                name: "Cày Melee (Võ)",
+                image: "https://trinhvantuyen.com/wp-content/uploads/2022/09/cay-thue-blox-fruit-gia-re-uy-tin-1.jpg", 
+                tag: "HOT",
+                category: "hot",
+                desc: "Cày Sanguine Art và các loại Melee khác.",
+                packages: [
+                    { name: "🩸 Sanguine Art (A – Z)", price: 50000 },
+                    { name: "👊 Các Melee khác (God/Shark/Electric...)", price: 20000 }
+                ]
+            },
+            {
+                name: "Dịch Vụ Leviathan",
+                image: "https://i.ytimg.com/vi/b1938838-66e7-4d2c-90ba-b5cabb0f13a5/maxresdefault.jpg",
+                tag: "VIP",
+                category: "vip",
+                desc: "Săn tim, cuộn đỏ, treo Leviathan tỷ lệ cao.",
+                packages: [
+                    { name: "❤️ 1 Tim Levi (Kèm Hydra/Tiki - K vảy)", price: 10000 },
+                    { name: "📜 10 Cuộn Đỏ", price: 20000 },
+                    { name: "⚓ Treo Levi 8 ngày (50+ Cuộn)", price: 50000 }
+                ]
+            },
+            {
+                name: "Up Tộc V4 & Draco",
+                image: "https://i.ytimg.com/vi/d1128fd5-90aa-413d-ab87-1f24263544d3/maxresdefault.jpg",
+                tag: "FAST",
+                category: "hot",
+                desc: "Full Gear V4, lấy Draco, Ghoul, Cyborg.",
+                packages: [
+                    { name: "⚙️ 1 Gear Tộc V4", price: 10000 },
+                    { name: "🌕 Full Gear (FG)", price: 50000 },
+                    { name: "💳 Tìm Đảo Bí Ẩn (Card)", price: 70000 },
+                    { name: "🧟 Lấy Tộc Ghoul / Cyborg", price: 40000 },
+                    { name: "🦖 Lấy Draco (Đủ nguyên liệu)", price: 10000 },
+                    { name: "🆙 Draco V1 – V3", price: 20000 },
+                    { name: "⚙️ 1 Gear Draco", price: 10000 },
+                    { name: "🌕 Full Gear Draco", price: 50000 }
+                ]
+            },
+            {
+                name: "Cày Kiếm & Súng (Sword)",
+                image: "https://i.ytimg.com/vi/78b543de-5874-4a99-839a-683f08c9324e/hq720.jpg",
+                tag: "NEW",
+                category: "hot",
+                desc: "Lấy CDK, Shark Anchor, Soul Guitar uy tín.",
+                packages: [
+                    { name: "🗡️ Cursed Dual Katana (CDK) A-Z", price: 30000 },
+                    { name: "⚓ Shark Anchor A-Z", price: 30000 },
+                    { name: "🎸 Soul Guitar A-Z", price: 30000 },
+                    { name: "⚔️ Các đồ hiếm khác (Ib báo giá)", price: 0 }
+                ]
+            },
+            {
+                name: "Mastery - Beli - Fragments",
+                image: "https://i.ytimg.com/vi/p8g1a0s6Oms/maxresdefault.jpg",
+                tag: "SALE",
+                category: "vip",
+                desc: "Cày thông thạo, Fragment, Beli cực nhanh.",
+                packages: [
+                    { name: "💎 10k Fragments", price: 10000 },
+                    { name: "💵 10 Triệu Beli", price: 10000 },
+                    { name: "📈 1 - 300 Mastery", price: 20000 },
+                    { name: "📈 300 - 600 Mastery", price: 30000 }
+                ]
+            }
+        ];
+
+        let currentCategory = 'all';
+        const container = document.getElementById('service-container');
+        const packageSelect = document.getElementById('packageSelect');
+        const totalPrice = document.getElementById('totalPrice');
+
+        function renderProducts() {
+            container.innerHTML = '';
+            products.forEach((p, index) => {
+                if (currentCategory !== 'all' && p.category !== currentCategory) return;
+                
+                const tagClass = {
+                    'HOT': 'tag-hot',
+                    'VIP': 'tag-vip',
+                    'FAST': 'tag-fast',
+                    'NEW': 'tag-new',
+                    'SALE': 'tag-sale'
+                }[p.tag] || 'tag-hot';
+
+                const html = `
+                    <div class="glass-panel rounded-2xl overflow-hidden service-card group cursor-pointer h-full flex flex-col">
+                        <div class="relative h-48 overflow-hidden">
+                            <span class="absolute top-3 right-3 z-10 text-white text-[10px] font-bold px-3 py-1 rounded shadow-lg uppercase ${tagClass}">
+                                ${p.tag}
+                            </span>
+                            <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="${p.name}" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent"></div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col">
+                            <h3 class="text-lg font-bold text-white mb-1 group-hover:text-[var(--color-primary)] transition">${p.name}</h3>
+                            <p class="text-xs text-gray-400 mb-4 line-clamp-2">${p.desc}</p>
+                            <div class="mt-auto">
+                                <button onclick="openOrderModal(${index})" class="w-full py-2.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-[var(--color-primary)] text-gray-300 hover:text-white font-bold text-sm transition flex justify-between items-center px-4">
+                                    <span>Mua Ngay</span>
+                                    <i class="fa-solid fa-arrow-right text-[var(--color-primary)]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
+        }
+
+        function filterCategory(cat, event) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.remove('text-white');
+                btn.classList.add('text-gray-400');
+            });
+            event.target.classList.add('active');
+            event.target.classList.remove('text-gray-400');
+            event.target.classList.add('text-white');
+            renderProducts();
+        }
+
+        function openOrderModal(index) {
+            const product = products[index];
+            document.getElementById('modalServiceName').innerText = product.name;
+            
+            packageSelect.innerHTML = '<option value="0">-- Chọn gói --</option>';
+            product.packages.forEach(pkg => {
+                const opt = document.createElement('option');
+                opt.value = pkg.price;
+                opt.innerText = `${pkg.name} - ${pkg.price.toLocaleString()}đ`;
+                packageSelect.appendChild(opt);
+            });
+            
+            totalPrice.innerText = "0 đ";
+            openModal('order');
+        }
+
+        function openModal(id) {
+            document.getElementById('modal-' + id).classList.add('active');
+        }
+
+        function closeAllModals() {
+            document.querySelectorAll('.modal').forEach(el => el.classList.remove('active'));
+        }
+
+        function submitOrder() {
+            const price = packageSelect.value;
+            if (price === '0') {
+                alert('Vui lòng chọn gói dịch vụ!');
+                return;
+            }
+            alert('✅ Đơn hàng đã được gửi thành công! Shop sẽ liên hệ trong 24h.');
+            closeAllModals();
+        }
+
+        function depositSuccess() {
+            alert('✅ Nạp thẻ thành công! Xu sẽ cộng vào tài khoản trong 5 phút.');
+            closeAllModals();
+        }
+
+        function loginSuccess() {
+            alert('✅ Đăng nhập thành công!');
+            closeAllModals();
+        }
+
+        packageSelect.addEventListener('change', function() {
+            totalPrice.innerText = parseInt(this.value || 0).toLocaleString('vi-VN') + ' đ';
+        });
+
+        // Khởi tạo sản phẩm
+        renderProducts();
+    </script>
+</body>
+</html>
