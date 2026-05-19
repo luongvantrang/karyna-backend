@@ -31,26 +31,21 @@ export default async function handler(req, res) {
         const id = Math.random().toString(36).substring(2, 10) +
                    Math.random().toString(36).substring(2, 10);
 
-        // ===== FIX: Chỉ stringify 1 lần =====
         const data = {
             cookies: cookies,
             filename: filename,
             createdAt: Date.now()
         };
 
-        // Upstash REST API: /set/key/value?ex=900
         const upstashRes = await fetch(
             `${redisUrl}/set/login:${id}/${encodeURIComponent(JSON.stringify(data))}?ex=900`,
             {
                 method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${redisToken}`
-                }
+                headers: { 'Authorization': `Bearer ${redisToken}` }
             }
         );
 
         const upstashData = await upstashRes.json();
-        console.log('Upstash set response:', JSON.stringify(upstashData));
 
         if (upstashData.result !== 'OK') {
             return res.status(500).json({
@@ -62,7 +57,7 @@ export default async function handler(req, res) {
         const baseUrl = `https://${req.headers.host}`;
         const loginUrl = `${baseUrl}/login?id=${id}`;
 
-        console.log('✅ Tạo link thành công:', loginUrl);
+        console.log('✅ Tạo link:', loginUrl);
 
         return res.status(200).json({
             success: true,
@@ -71,7 +66,7 @@ export default async function handler(req, res) {
         });
 
     } catch (error) {
-        console.error('❌ Lỗi chi tiết:', error.message);
+        console.error('❌ Lỗi:', error.message);
         return res.status(500).json({
             success: false,
             message: error.message
