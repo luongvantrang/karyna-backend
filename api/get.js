@@ -1,44 +1,46 @@
-const fs = require('fs');
-const path = require('path');
+import { Redis } from '@upstash/redis';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'links.json');
+const redis = new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Content-Type', 'application/json');
 
     const { id } = req.query;
 
     if (!id) {
-        return res.status(400).json({ success: false, message: 'ID is required' });
+        return res.status(400).json({ 
+            success: false, 
+            message: 'ID is required' 
+        });
     }
 
     try {
-        if (!fs.existsSync(DATA_FILE)) {
-            return res.status(404).json({ success: false, message: 'No data' });
+        const raw = await redis.get(`login:${id}`);
+
+        if (!raw) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Link hết hạn hoặc không tồn tại!' 
+            });
         }
 
-        const db = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-        const entry = db[id];
-
-        if (!entry) {
-            return res.status(404).json({ success: false, message: 'Link hết hạn hoặc không tồn tại' });
-        }
-
-        // Kiểm tra hết hạn
-        if (Date.now() > entry.expires) {
-            delete db[id];
-            fs.writeFileSync(DATA_FILE, JSON.stringify(db, null, 2));
-            return res.status(410).json({ success: false, message: 'Link đã hết hạn' });
-        }
+        const data = typeof raw === 'string' ? JSON.parse(raw) : raw;
 
         return res.status(200).json({
             success: true,
-            cookies: entry.cookies,
-            filename: entry.filename
+            cookies: data.cookies,
+            filename: data.filename
         });
 
     } catch (error) {
-        return res.status(500).json({ success: false, message: 'Server error' });
+        console.error('❌ Lỗi get:', error.message);
+        return res.status(500).json({ 
+            success: false, 
+            message: error.message 
+        });
     }
-};
+}
