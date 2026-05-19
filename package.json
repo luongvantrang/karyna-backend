@@ -1,0 +1,8 @@
+{
+  "name": "netflix-free-login",
+  "version": "1.0.0",
+  "description": "Netflix Free Login Bot",
+  "scripts": {
+    "start": "node api/get.js"
+  }
+}
