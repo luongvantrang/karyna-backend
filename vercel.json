@@ -1,9 +1,6 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/api/create", "destination": "/api/create.js" },
-    { "source": "/api/get", "destination": "/api/get.js" },
-    { "source": "/login", "destination": "/public/login.html" },
-    { "source": "/", "destination": "/public/index.html" }
+    { "source": "/login", "destination": "/api/login" }
   ]
 }
