@@ -1,13 +1,16 @@
-const fs = require('fs');
-const path = require('path');
+import { Redis } from '@upstash/redis';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'links.json');
+const redis = new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Content-Type', 'application/json');
 
+    if (req.method === 'OPTIONS') return res.status(200).end();
     if (req.method !== 'POST') {
         return res.status(405).json({ success: false, message: 'Method not allowed' });
     }
@@ -16,30 +19,32 @@ module.exports = async (req, res) => {
         const { cookies, filename } = req.body;
 
         if (!cookies || !filename) {
-            return res.status(400).json({ success: false, message: 'Missing data' });
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Missing cookies or filename' 
+            });
         }
 
-        // Đọc database
-        let db = {};
-        if (fs.existsSync(DATA_FILE)) {
-            db = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-        }
+        // Tạo ID ngẫu nhiên
+        const id = Math.random().toString(36).substring(2, 10) + 
+                   Math.random().toString(36).substring(2, 10);
 
-        // Tạo ID ngẫu nhiên 8 ký tự
-        const id = Math.random().toString(36).substring(2, 10);
-        const expires = Date.now() + 15 * 60 * 1000; // Hết hạn sau 15 phút
-
-        db[id] = {
+        const data = {
             cookies: cookies,
             filename: filename,
-            expires: expires,
             createdAt: Date.now()
         };
 
-        // Lưu lại
-        fs.writeFileSync(DATA_FILE, JSON.stringify(db, null, 2));
+        // Lưu vào Upstash Redis, hết hạn sau 15 phút
+        await redis.set(`login:${id}`, JSON.stringify(data), { ex: 900 });
 
-        const loginUrl = `https://${process.env.VERCEL_URL || 'your-domain.vercel.app'}/login?id=${id}`;
+        const baseUrl = process.env.VERCEL_URL 
+            ? `https://${process.env.VERCEL_URL}` 
+            : 'http://localhost:3000';
+
+        const loginUrl = `${baseUrl}/login?id=${id}`;
+
+        console.log(`✅ Tạo link thành công: ${loginUrl}`);
 
         return res.status(200).json({
             success: true,
@@ -48,7 +53,10 @@ module.exports = async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ success: false, message: 'Server error' });
+        console.error('❌ Lỗi create:', error.message);
+        return res.status(500).json({ 
+            success: false, 
+            message: error.message 
+        });
     }
-};
+}
