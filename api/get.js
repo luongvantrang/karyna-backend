@@ -20,7 +20,6 @@ export default async function handler(req, res) {
         });
 
         const upstashData = await upstashRes.json();
-        console.log('Raw từ Upstash:', JSON.stringify(upstashData));
 
         if (!upstashData.result) {
             return res.status(404).json({
@@ -29,29 +28,23 @@ export default async function handler(req, res) {
             });
         }
 
-        // ===== FIX: Xử lý double-stringify =====
         let data = upstashData.result;
 
-        // Parse lần 1
         if (typeof data === 'string') {
             data = JSON.parse(data);
         }
 
-        // Nếu vẫn còn là string (bị stringify 2 lần) thì parse tiếp
         if (data.value && typeof data.value === 'string') {
             data = JSON.parse(data.value);
         }
 
-        console.log('Data sau parse:', JSON.stringify(data));
-
-        // Lấy cookies
         const cookies = data.cookies;
         const filename = data.filename;
 
         if (!cookies) {
             return res.status(500).json({
                 success: false,
-                message: 'Không tìm thấy cookies trong data!'
+                message: 'Không tìm thấy cookies!'
             });
         }
 
