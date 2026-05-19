@@ -1,7 +1,13 @@
 {
   "version": 2,
+  "functions": {
+    "api/create.js": { "memory": 128, "maxDuration": 10 },
+    "api/get.js": { "memory": 128, "maxDuration": 10 }
+  },
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/public/login.html" }
+    { "src": "/api/create", "dest": "/api/create.js" },
+    { "src": "/api/get", "dest": "/api/get.js" },
+    { "src": "/login", "dest": "/public/login.html" },
+    { "src": "/", "dest": "/public/index.html" }
   ]
 }
