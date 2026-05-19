@@ -1,0 +1,28 @@
+[
+  {
+    "id": "acc1",
+    "plan": "Standard",
+    "country": "US",
+    "billing": "May 30, 2026",
+    "cookies": {
+      "NetflixId": "v%3D3%26ct%3DBgjHl...",
+      "SecureNetflixId": "v%3D3%26mac%3D...",
+      "gsid": "6ff66b40-1884-443f-a45a-42b20f77ddeb",
+      "nfvdid": "BQFmAAEBEPOmJs...",
+      "flwssn": "86145ba8-af50-4d93-89e0-509dd5bbfd07"
+    }
+  },
+  {
+    "id": "acc2",
+    "plan": "Premium",
+    "country": "US",
+    "billing": "Jun 15, 2026",
+    "cookies": {
+      "NetflixId": "v%3D3%26ct%3Dxxx...",
+      "SecureNetflixId": "v%3D3%26mac%3Dxxx...",
+      "gsid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "nfvdid": "BQFmAAEBEPOmJs...",
+      "flwssn": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    }
+  }
+]
