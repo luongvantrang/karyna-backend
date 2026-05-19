@@ -1,47 +1,44 @@
 const fs = require('fs');
 const path = require('path');
 
+const DATA_FILE = path.join(process.cwd(), 'data', 'links.json');
+
 module.exports = async (req, res) => {
-    // CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Content-Type', 'application/json');
 
-    // Đọc database cookie
-    const cookiePath = path.join(process.cwd(), 'data', 'cookies.json');
-    
-    let accounts = [];
+    const { id } = req.query;
+
+    if (!id) {
+        return res.status(400).json({ success: false, message: 'ID is required' });
+    }
+
     try {
-        const raw = fs.readFileSync(cookiePath, 'utf-8');
-        accounts = JSON.parse(raw);
-    } catch (e) {
-        return res.status(500).json({ 
-            success: false, 
-            message: 'Lỗi đọc database!' 
-        });
-    }
-
-    // Kiểm tra còn acc không
-    if (accounts.length === 0) {
-        return res.status(404).json({ 
-            success: false, 
-            message: 'Hết acc rồi!' 
-        });
-    }
-
-    // Random 1 acc
-    const randomIndex = Math.floor(Math.random() * accounts.length);
-    const account = accounts[randomIndex];
-
-    // Trả về thông tin acc
-    return res.status(200).json({
-        success: true,
-        data: {
-            id: account.id,
-            plan: account.plan,
-            country: account.country,
-            billing: account.billing,
-            cookies: account.cookies
+        if (!fs.existsSync(DATA_FILE)) {
+            return res.status(404).json({ success: false, message: 'No data' });
         }
-    });
+
+        const db = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+        const entry = db[id];
+
+        if (!entry) {
+            return res.status(404).json({ success: false, message: 'Link hết hạn hoặc không tồn tại' });
+        }
+
+        // Kiểm tra hết hạn
+        if (Date.now() > entry.expires) {
+            delete db[id];
+            fs.writeFileSync(DATA_FILE, JSON.stringify(db, null, 2));
+            return res.status(410).json({ success: false, message: 'Link đã hết hạn' });
+        }
+
+        return res.status(200).json({
+            success: true,
+            cookies: entry.cookies,
+            filename: entry.filename
+        });
+
+    } catch (error) {
+        return res.status(500).json({ success: false, message: 'Server error' });
+    }
 };
