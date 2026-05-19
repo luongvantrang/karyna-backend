@@ -5,54 +5,67 @@ export default async function handler(req, res) {
     const { id } = req.query;
 
     if (!id) {
-        return res.status(400).json({ 
-            success: false, 
-            message: 'ID is required' 
+        return res.status(400).json({
+            success: false,
+            message: 'ID is required'
         });
     }
 
     const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
     const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
 
-    if (!redisUrl || !redisToken) {
-        return res.status(500).json({ 
-            success: false, 
-            message: 'Missing environment variables' 
-        });
-    }
-
     try {
-        // Lấy từ Upstash bằng fetch thuần
         const upstashRes = await fetch(`${redisUrl}/get/login:${id}`, {
-            headers: {
-                'Authorization': `Bearer ${redisToken}`
-            }
+            headers: { 'Authorization': `Bearer ${redisToken}` }
         });
 
         const upstashData = await upstashRes.json();
-        console.log('Upstash get response:', JSON.stringify(upstashData));
+        console.log('Raw từ Upstash:', JSON.stringify(upstashData));
 
-        // Upstash trả về { result: "..." } hoặc { result: null }
         if (!upstashData.result) {
-            return res.status(404).json({ 
-                success: false, 
-                message: 'Link hết hạn hoặc không tồn tại!' 
+            return res.status(404).json({
+                success: false,
+                message: 'Link hết hạn hoặc không tồn tại!'
             });
         }
 
-        const data = JSON.parse(upstashData.result);
+        // ===== FIX: Xử lý double-stringify =====
+        let data = upstashData.result;
+
+        // Parse lần 1
+        if (typeof data === 'string') {
+            data = JSON.parse(data);
+        }
+
+        // Nếu vẫn còn là string (bị stringify 2 lần) thì parse tiếp
+        if (data.value && typeof data.value === 'string') {
+            data = JSON.parse(data.value);
+        }
+
+        console.log('Data sau parse:', JSON.stringify(data));
+
+        // Lấy cookies
+        const cookies = data.cookies;
+        const filename = data.filename;
+
+        if (!cookies) {
+            return res.status(500).json({
+                success: false,
+                message: 'Không tìm thấy cookies trong data!'
+            });
+        }
 
         return res.status(200).json({
             success: true,
-            cookies: data.cookies,
-            filename: data.filename
+            cookies: cookies,
+            filename: filename
         });
 
     } catch (error) {
         console.error('❌ Lỗi get:', error.message);
-        return res.status(500).json({ 
-            success: false, 
-            message: error.message 
+        return res.status(500).json({
+            success: false,
+            message: error.message
         });
     }
 }
