@@ -1,8 +1,7 @@
 {
-  "name": "netflix-free-login",
+  "name": "netflix-bot-vercel",
   "version": "1.0.0",
-  "description": "Netflix Free Login Bot",
   "scripts": {
-    "start": "node api/get.js"
+    "dev": "vercel dev"
   }
 }
