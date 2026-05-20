@@ -3,6 +3,7 @@
   "routes": [
     { "src": "/save", "dest": "/api/save" },
     { "src": "/get-cookie", "dest": "/api/get-cookie" },
-    { "src": "/direct-login", "dest": "/api/direct-login" }
+    { "src": "/direct-login", "dest": "/api/direct-login" },
+    { "src": "/", "dest": "/index.js" }
   ]
 }
