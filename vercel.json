@@ -1,19 +1,8 @@
 {
   "version": 2,
-  "functions": {
-    "api/create.js": { "memory": 128, "maxDuration": 10 },
-    "api/get.js": { "memory": 128, "maxDuration": 10 },
-    "api/login.js": { "memory": 256, "maxDuration": 30 },
-    "api/refresh-proxy.js": { "memory": 256, "maxDuration": 60 }
-  },
-  "rewrites": [
-    { "source": "/login", "destination": "/api/login" },
-    { "source": "/", "destination": "/public/index.html" }
-  ],
-  "crons": [
-    {
-      "path": "/api/refresh-proxy",
-      "schedule": "0 */2 * * *"
-    }
+  "routes": [
+    { "src": "/save", "dest": "/api/save" },
+    { "src": "/get-cookie", "dest": "/api/get-cookie" },
+    { "src": "/direct-login", "dest": "/api/direct-login" }
   ]
 }
