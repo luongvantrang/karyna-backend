@@ -1,5 +1,8 @@
 {
-  "name": "netflix-worker",
-  "version": "1.0.0",
-  "type": "module"
+  "version": 2,
+  "routes": [
+    { "src": "/save", "dest": "/api/save.js" },
+    { "src": "/get-cookie", "dest": "/api/get-cookie.js" },
+    { "src": "/direct-login", "dest": "/api/direct-login.js" }
+  ]
 }
