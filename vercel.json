@@ -1,8 +1,7 @@
 {
-  "version": 2,
-  "routes": [
-    { "src": "/save", "dest": "/api/save.js" },
-    { "src": "/get-cookie", "dest": "/api/get-cookie.js" },
-    { "src": "/direct-login", "dest": "/api/direct-login.js" }
+  "rewrites": [
+    { "source": "/save", "destination": "/api/save" },
+    { "source": "/get-cookie", "destination": "/api/get-cookie" },
+    { "source": "/direct-login", "destination": "/api/direct-login" }
   ]
 }
