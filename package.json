@@ -1,7 +1,5 @@
 {
-  "name": "netflix-worker",
+  "name": "karyna-netflix",
   "version": "1.0.0",
-  "dependencies": {
-    "@vercel/kv": "^1.0.0"
-  }
+  "dependencies": {}
 }
