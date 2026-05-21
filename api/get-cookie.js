@@ -1,40 +1,38 @@
-import { Redis } from '@upstash/redis';
-
-const redis = new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL,
-    token: process.env.UPSTASH_REDIS_REST_TOKEN,
-});
+import { kv } from '@vercel/kv';
 
 export default async function handler(req, res) {
+    // CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    
     if (req.method === 'OPTIONS') return res.status(200).end();
-
+    
     try {
         const { id } = req.query;
-        if (!id) return res.status(400).json({ error: 'Missing id' });
-
-        let data = await redis.get(id);
-        console.log('Raw data from Redis:', typeof data, data);
-
-        // Fix: xử lý mọi trường hợp data trả về
-        if (!data) return res.status(404).json({ error: 'Not found' });
-
-        // Nếu data là string thì parse
-        if (typeof data === 'string') {
-            try { data = JSON.parse(data); } catch(e) {}
+        
+        if (!id) {
+            return res.status(400).json({ error: 'Missing id' });
         }
-
-        // Nếu data vẫn là string (bị double stringify)
-        if (typeof data === 'string') {
-            try { data = JSON.parse(data); } catch(e) {}
+        
+        const data = await kv.get(`cookie:${id}`);
+        
+        if (!data) {
+            console.log(`❌ Cookie not found for ID: ${id}`);
+            return res.status(404).json({ error: 'Cookie not found or expired' });
         }
-
-        console.log('Final data:', data);
-        return res.status(200).json(data);
-    } catch (e) {
-        console.error(e);
-        return res.status(500).json({ error: e.message });
+        
+        // Parse nếu là string
+        const cookieData = typeof data === 'string' ? JSON.parse(data) : data;
+        
+        console.log(`✅ Retrieved cookie for ID: ${id}`);
+        
+        // ⚠️ KHÔNG XÓA cookie sau khi get - user có thể cần dùng lại
+        // Nếu muốn 1-time use thì uncomment dòng dưới:
+        // await kv.del(`cookie:${id}`);
+        
+        return res.status(200).json(cookieData);
+    } catch (err) {
+        console.error('Get error:', err);
+        return res.status(500).json({ error: err.message });
     }
 }
